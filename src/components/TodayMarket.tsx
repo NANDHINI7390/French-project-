@@ -18,147 +18,152 @@ export const TodayMarket: React.FC<TodayMarketProps> = ({
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const scrollAmount = direction === 'left' ? -320 : 320;
+      const scrollAmount = direction === 'left' ? -280 : 280;
       scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
+  // 6 products matching screenshot
+  const marketItems = TODAY_MARKET_PRODUCTS.slice(0, 6);
+
   return (
     <section
       aria-label="Aujourd'hui au marché"
-      className="relative w-full bg-[#16332A] text-[#F8F4EA] py-10 sm:py-14 my-4 overflow-hidden border-y border-[#C6A468]/30 shadow-2xl"
+      className="relative w-full bg-[#11241C] text-white py-10 sm:py-14 my-6 overflow-hidden shadow-2xl border-y border-[#C6A468]/30"
     >
-      {/* Decorative Botanical Foliage Watermark Background */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none market-board-pattern" />
-      <div className="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-[#A8BFAE]/10 blur-3xl pointer-events-none" />
-      <div className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-[#C6A468]/10 blur-3xl pointer-events-none" />
+      {/* Decorative Botanical Foliage Watermarks */}
+      <div className="absolute left-0 top-0 bottom-0 w-48 opacity-20 pointer-events-none flex items-center">
+        <svg className="w-36 h-64 text-[#A8BFAE]" fill="currentColor" viewBox="0 0 100 200">
+          <path d="M10,100 Q40,30 80,20 Q60,80 30,100 Q60,120 80,180 Q40,170 10,100 Z" />
+          <path d="M5,50 Q30,10 60,5 Q45,45 20,60 Z" />
+          <path d="M5,150 Q30,190 60,195 Q45,155 20,140 Z" />
+        </svg>
+      </div>
+      <div className="absolute right-0 top-0 bottom-0 w-48 opacity-20 pointer-events-none flex items-center justify-end">
+        <svg className="w-36 h-64 text-[#A8BFAE] transform scale-x-[-1]" fill="currentColor" viewBox="0 0 100 200">
+          <path d="M10,100 Q40,30 80,20 Q60,80 30,100 Q60,120 80,180 Q40,170 10,100 Z" />
+          <path d="M5,50 Q30,10 60,5 Q45,45 20,60 Z" />
+          <path d="M5,150 Q30,190 60,195 Q45,155 20,140 Z" />
+        </svg>
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
         
-        {/* Section Heading */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div>
-            <div className="inline-flex items-center gap-2.5">
-              <span className="text-[#C6A468] text-lg select-none">🌾</span>
-              <h2 className="font-fraunces text-2xl sm:text-3xl md:text-4xl text-[#F8F4EA] font-semibold tracking-wide uppercase">
-                Aujourd’hui au marché
-              </h2>
-              <span className="text-[#C6A468] text-lg select-none">🌾</span>
-            </div>
-            <p className="text-xs sm:text-sm text-[#A8BFAE] mt-1 font-light">
-              Les arrivages les plus frais du petit matin, sélectionnés avec passion par nos primeurs et artisans
-            </p>
+        {/* Section Heading with Golden Wheat Sheafs */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center gap-3">
+            <span className="text-[#C6A468] text-xl sm:text-2xl select-none">🌾</span>
+            <h2 className="font-fraunces text-2xl sm:text-3xl md:text-4xl text-[#C6A468] font-bold tracking-wider uppercase drop-shadow-md">
+              AUJOURD'HUI AU MARCHÉ
+            </h2>
+            <span className="text-[#C6A468] text-xl sm:text-2xl select-none">🌾</span>
           </div>
-
-          {/* Carousel Navigation Arrows */}
-          <div className="flex items-center gap-2 self-end sm:self-center">
-            <button
-              onClick={() => scroll('left')}
-              aria-label="Voir les produits précédents du marché"
-              className="w-10 h-10 rounded-full bg-black/40 text-white border border-white/20 flex items-center justify-center hover:bg-[#C6A468] hover:text-[#16332A] transition-all"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              aria-label="Voir les produits suivants du marché"
-              className="w-10 h-10 rounded-full bg-black/40 text-white border border-white/20 flex items-center justify-center hover:bg-[#C6A468] hover:text-[#16332A] transition-all"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
+          <p className="text-xs sm:text-sm text-[#A8BFAE] mt-1 font-light tracking-wide">
+            Les arrivages frais sélectionnés à l'aube par nos primeurs
+          </p>
         </div>
 
-        {/* Torn Paper Deckle-Edge Cards Carousel */}
-        <div
-          ref={scrollRef}
-          className="flex items-stretch gap-5 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth py-4 px-2 -mx-2"
-        >
-          {TODAY_MARKET_PRODUCTS.map((product) => {
-            const inCart = cartProductIds.has(product.id);
-            return (
-              <div
-                key={product.id}
-                className="flex-shrink-0 w-[220px] sm:w-[240px] md:w-[260px] group flex flex-col transition-transform duration-300 hover:-translate-y-1.5"
-              >
-                {/* Torn-paper card container */}
-                <div className="torn-paper flex-1 flex flex-col p-4 sm:p-5 text-[#232420] relative rounded-sm">
-                  
-                  {/* Subtle Stamp/Origin tag */}
-                  {product.origin && (
-                    <div className="text-[10px] uppercase font-bold tracking-wider text-[#16332A]/70 mb-2 truncate">
-                      {product.origin}
-                    </div>
-                  )}
+        {/* Relative Container with Carousel Arrows & Cards */}
+        <div className="relative">
+          
+          {/* Carousel Left Arrow */}
+          <button
+            onClick={() => scroll('left')}
+            aria-label="Produits précédents"
+            className="hidden lg:flex absolute -left-5 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-[#16332A]/90 hover:bg-[#C6A468] text-[#C6A468] hover:text-[#16332A] items-center justify-center transition-all cursor-pointer border border-[#C6A468]/50 shadow-xl"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
 
-                  {/* Product Image */}
-                  <div
-                    onClick={() => onQuickView(product)}
-                    className="relative w-full h-36 sm:h-40 my-1 overflow-hidden cursor-pointer rounded-lg bg-white/60 p-2 flex items-center justify-center"
-                  >
+          {/* Carousel Right Arrow */}
+          <button
+            onClick={() => scroll('right')}
+            aria-label="Produits suivants"
+            className="hidden lg:flex absolute -right-5 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-[#16332A]/90 hover:bg-[#C6A468] text-[#C6A468] hover:text-[#16332A] items-center justify-center transition-all cursor-pointer border border-[#C6A468]/50 shadow-xl"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+
+          {/* 6 Deckle Sandalwood Old Crushed Paper Cards */}
+          <div
+            ref={scrollRef}
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4 overflow-x-auto no-scrollbar py-4 px-1"
+          >
+            {marketItems.map((product) => {
+              const inCart = cartProductIds.has(product.id);
+              return (
+                <div
+                  key={product.id}
+                  onClick={() => onQuickView(product)}
+                  className="sandle-crushed-paper text-[#232420] p-3 sm:p-4 flex flex-col justify-between cursor-pointer hover:-translate-y-2 hover:rotate-[0.5deg] transition-all duration-300 group select-none shadow-xl"
+                >
+                  {/* Subtle Stamp Badge */}
+                  <div className="relative z-10 flex justify-between items-center mb-1">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-[#7A5826] bg-[#DBC49A]/60 px-1.5 py-0.5 rounded-xs border border-[#8C6430]/20">
+                      FRAIS DU JOUR
+                    </span>
+                  </div>
+
+                  {/* Product Image Frame */}
+                  <div className="relative z-10 w-full aspect-square my-1.5 overflow-hidden rounded bg-[#FAF5E8]/80 flex items-center justify-center p-2 border border-[#CDB58A]/60 shadow-inner">
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-300"
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
                       referrerPolicy="no-referrer"
                       loading="lazy"
                     />
-                    {product.badge && (
-                      <span className="absolute top-1 left-1 text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#16332A] text-[#F8F4EA]">
-                        {product.badge}
-                      </span>
-                    )}
                   </div>
 
-                  {/* Name and handwritten/italic style subtitle */}
-                  <div className="mt-2 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h3
-                        onClick={() => onQuickView(product)}
-                        className="font-fraunces font-bold text-base sm:text-lg text-[#16332A] cursor-pointer hover:text-[#C6A468] transition-colors leading-tight"
-                      >
-                        {product.name}
-                      </h3>
-                      {product.subtitle && (
-                        <p className="text-xs italic text-[#232420]/75 font-serif mt-0.5 line-clamp-1">
-                          {product.subtitle}
-                        </p>
+                  {/* Title in Italic Serif */}
+                  <div className="relative z-10 text-center my-1.5 flex-1 flex flex-col justify-center">
+                    <h3 className="font-fraunces italic font-semibold text-sm sm:text-base text-[#16332A] leading-tight group-hover:text-[#6B2E3B] transition-colors">
+                      {product.name}
+                    </h3>
+                  </div>
+
+                  {/* Price & Unit */}
+                  <div className="relative z-10 text-center mt-1 pt-2 border-t border-[#8C6430]/25 flex items-center justify-between">
+                    <div className="inline-flex items-baseline gap-1 text-left">
+                      <span className="font-mono-price font-bold text-base sm:text-lg text-[#16332A]">
+                        {product.price.toFixed(2).replace('.', ',')}€
+                      </span>
+                      <span className="text-[11px] text-[#6B5538] font-medium">
+                        {product.unit}
+                      </span>
+                    </div>
+
+                    {/* Quick Add Button */}
+                    <button
+                      type="button"
+                      id={`market-add-btn-${product.id}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onAddToCart(product);
+                      }}
+                      className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${
+                        inCart
+                          ? 'bg-[#16332A] text-white shadow-xs'
+                          : 'bg-[#C6A468] hover:bg-[#16332A] text-[#16332A] hover:text-white shadow-xs'
+                      }`}
+                      title="Ajouter au panier"
+                    >
+                      {inCart ? (
+                        <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                      ) : (
+                        <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
                       )}
-                    </div>
-
-                    {/* Price and Unit Row matching screenshot */}
-                    <div className="mt-4 pt-2 border-t border-[#16332A]/10 flex items-baseline justify-between">
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="font-mono-price font-bold text-xl sm:text-2xl text-[#16332A]">
-                          {product.price.toFixed(2).replace('.', ',')}€
-                        </span>
-                        <span className="text-xs text-[#232420]/70 font-serif italic">
-                          {product.unit}
-                        </span>
-                      </div>
-
-                      {/* Add Button */}
-                      <button
-                        id={`market-add-btn-${product.id}`}
-                        onClick={() => onAddToCart(product)}
-                        aria-label={`Ajouter ${product.name} au panier`}
-                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                          inCart
-                            ? 'bg-[#16332A] text-[#C6A468]'
-                            : 'bg-[#16332A] text-white hover:bg-[#C6A468] hover:text-[#16332A] shadow'
-                        }`}
-                        title="Ajouter au panier"
-                      >
-                        {inCart ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                      </button>
-                    </div>
+                    </button>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
   );
 };
+
+
+

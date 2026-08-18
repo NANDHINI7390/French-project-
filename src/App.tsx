@@ -7,7 +7,8 @@ import React, { useState, useMemo } from 'react';
 import { Header } from './components/Header';
 import { CategoryNav } from './components/CategoryNav';
 import { HeroCarousel } from './components/HeroCarousel';
-import { MainBentoSection } from './components/MainBentoSection';
+import { StoreSelector } from './components/StoreSelector';
+import { TodayMarket } from './components/TodayMarket';
 import { PromotionsSection } from './components/PromotionsSection';
 import { ValueProps } from './components/ValueProps';
 import { Footer } from './components/Footer';
@@ -180,24 +181,26 @@ export default function App() {
         onSelectCategory={setActiveCategory}
       />
 
-      {/* Main Content Sections */}
-      <main className="flex-1 w-full pt-4 sm:pt-6 pb-12">
+      {/* Main Content Sections in Exact Screenshot Order */}
+      <main className="flex-1 w-full pt-2 sm:pt-4 pb-12">
         
-        {/* 3. Promotional Hero Banner (Auto-sliding) */}
+        {/* 3. Promotional Hero Banner (Auto-sliding with 6 dots and arrows) */}
         <HeroCarousel onCtaClick={handleCtaClick} />
 
-        {/* 4. Signature 12-Column Bento Showcase (Votre Magasin | Offres du Moment | Aujourd'hui au Marché) */}
-        <MainBentoSection
+        {/* 4. Votre Magasin (Store Selector) */}
+        <StoreSelector
           selectedStore={selectedStore}
           onSelectStore={setSelectedStore}
-          onOpenStoreModal={() => setIsStoreModalOpen(true)}
-          onAddToCart={handleAddToCart}
-          onUpdateQuantity={handleUpdateQuantity}
-          onQuickView={(product) => setSelectedProduct(product)}
-          getCartQuantity={getCartQuantity}
         />
 
-        {/* 5. Complete Promotions & Seasonal Catalog Section */}
+        {/* 5. Aujourd'hui au Marché (Chalkboard with Torn Deckle Cards) */}
+        <TodayMarket
+          onAddToCart={handleAddToCart}
+          onQuickView={(product) => setSelectedProduct(product)}
+          cartProductIds={new Set(cartItems.map((i) => i.product.id))}
+        />
+
+        {/* 6. Nos Offres du Moment (Promotions Carousel with 5 Cards) */}
         <PromotionsSection
           onAddToCart={handleAddToCart}
           onUpdateQuantity={handleUpdateQuantity}
@@ -207,11 +210,11 @@ export default function App() {
           wishlistIds={wishlistIds}
         />
 
-        {/* 6. Value Propositions Banner */}
+        {/* 7. Value Propositions Banner (4 Items) */}
         <ValueProps />
       </main>
 
-      {/* 7. Footer */}
+      {/* 8. Footer (5 Columns) */}
       <Footer />
 
       {/* Modals & Drawers */}
@@ -312,3 +315,4 @@ export default function App() {
     </div>
   );
 }
+

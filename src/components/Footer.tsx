@@ -16,16 +16,16 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="w-full bg-[#16332A] text-[#F8F4EA] pt-12 border-t border-[#C6A468]/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 pb-10">
+    <footer className="w-full bg-[#16332A] text-white pt-12 pb-8 border-t border-[#16332A]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8">
         
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-10 border-b border-white/10">
+        {/* 5 Column Grid matching Screenshot */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 pb-10">
           
-          {/* Brand Column */}
-          <div className="lg:col-span-2 space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full overflow-hidden border border-[#C6A468] bg-white p-0.5 shadow-md flex items-center justify-center">
+          {/* Column 1: Brand & Socials */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0">
                 <img
                   src={LOGO_URL}
                   alt="EXO ISLAND Logo"
@@ -34,83 +34,97 @@ export const Footer: React.FC = () => {
                 />
               </div>
               <div>
-                <span className="font-fraunces text-2xl font-bold tracking-tight text-[#F8F4EA] leading-none block">
+                <span className="font-fraunces text-xl font-bold tracking-tight text-white leading-none block">
                   EXO ISLAND
                 </span>
-                <span className="text-[10px] font-semibold tracking-[0.25em] text-[#C6A468] uppercase mt-0.5 block">
+                <span className="text-[9px] font-semibold tracking-[0.25em] text-[#C6A468] uppercase mt-0.5 block">
                   SUPERMARCHÉ
                 </span>
               </div>
             </div>
 
-            <p className="text-xs text-[#A8BFAE] font-light max-w-sm leading-relaxed">
-              Le meilleur du frais chaque jour. Retrouvez les saveurs du monde entier et nos produits artisanaux à Goussainville et Sarcelles.
+            <p className="text-xs text-[#A8BFAE] font-light leading-relaxed">
+              Le meilleur du frais, chaque jour pour vous.
             </p>
 
-            {/* Social Links */}
-            <div className="flex items-center gap-2.5 pt-1">
+            {/* Social Icons */}
+            <div className="flex items-center gap-2 pt-2">
               <a
                 href="#facebook"
                 aria-label="Facebook EXO ISLAND"
-                className="w-8 h-8 rounded-full bg-[#234d40] text-[#F8F4EA] flex items-center justify-center hover:bg-[#C6A468] hover:text-[#16332A] transition-colors"
+                className="w-7 h-7 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-[#C6A468] hover:text-[#16332A] hover:border-[#C6A468] transition-colors"
               >
                 <Facebook className="w-3.5 h-3.5" />
               </a>
               <a
                 href="#instagram"
                 aria-label="Instagram EXO ISLAND"
-                className="w-8 h-8 rounded-full bg-[#234d40] text-[#F8F4EA] flex items-center justify-center hover:bg-[#C6A468] hover:text-[#16332A] transition-colors"
+                className="w-7 h-7 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-[#C6A468] hover:text-[#16332A] hover:border-[#C6A468] transition-colors"
               >
                 <Instagram className="w-3.5 h-3.5" />
               </a>
               <a
+                href="#tiktok"
+                aria-label="TikTok EXO ISLAND"
+                className="w-7 h-7 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-[#C6A468] hover:text-[#16332A] hover:border-[#C6A468] transition-colors"
+              >
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743 2.895 2.895 0 0 1 2.312-4.637c.32 0 .633.05.927.145V9.454a6.34 6.34 0 0 0-.927-.068C6.012 9.386 3.2 12.203 3.2 15.686c0 3.483 2.812 6.3 6.284 6.3 3.473 0 6.285-2.817 6.285-6.3V8.89a8.212 8.212 0 0 0 4.82 1.558V7.003a4.81 4.81 0 0 1-1-.317z"/>
+                </svg>
+              </a>
+              <a
                 href="#youtube"
                 aria-label="YouTube EXO ISLAND"
-                className="w-8 h-8 rounded-full bg-[#234d40] text-[#F8F4EA] flex items-center justify-center hover:bg-[#C6A468] hover:text-[#16332A] transition-colors"
+                className="w-7 h-7 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-[#C6A468] hover:text-[#16332A] hover:border-[#C6A468] transition-colors"
               >
                 <Youtube className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
 
-          {/* Links Column 1 */}
-          <div className="space-y-2.5">
-            <h4 className="text-[11px] font-bold uppercase tracking-widest text-[#C6A468]">
+          {/* Column 2: INFOS PRATIQUES */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
               INFOS PRATIQUES
             </h4>
-            <ul className="space-y-1.5 text-xs text-[#F8F4EA]/80 font-light">
+            <ul className="space-y-2 text-xs text-[#E2EBE5] font-light">
               <li>
                 <a href="#magasins" className="hover:text-[#C6A468] transition-colors">
-                  Nos supermarchés
+                  Nos magasins
                 </a>
               </li>
               <li>
                 <a href="#livraison" className="hover:text-[#C6A468] transition-colors">
-                  Livraison à domicile
+                  Livraison
                 </a>
               </li>
               <li>
                 <a href="#click-collect" className="hover:text-[#C6A468] transition-colors">
-                  Click & Collect 2h
+                  Click & Collect
                 </a>
               </li>
               <li>
                 <a href="#services" className="hover:text-[#C6A468] transition-colors">
-                  Boucherie & Traiteur
+                  Services
+                </a>
+              </li>
+              <li>
+                <a href="#faq" className="hover:text-[#C6A468] transition-colors">
+                  FAQ
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Links Column 2 */}
-          <div className="space-y-2.5">
-            <h4 className="text-[11px] font-bold uppercase tracking-widest text-[#C6A468]">
-              SERVICES CLIENTS
+          {/* Column 3: MON COMPTE */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
+              MON COMPTE
             </h4>
-            <ul className="space-y-1.5 text-xs text-[#F8F4EA]/80 font-light">
+            <ul className="space-y-2 text-xs text-[#E2EBE5] font-light">
               <li>
                 <a href="#commandes" className="hover:text-[#C6A468] transition-colors">
-                  Suivre ma commande
+                  Mes commandes
                 </a>
               </li>
               <li>
@@ -119,46 +133,73 @@ export const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="#contact" className="hover:text-[#C6A468] transition-colors">
-                  Contacter le service client
+                <a href="#adresses" className="hover:text-[#C6A468] transition-colors">
+                  Mes adresses
                 </a>
               </li>
               <li>
-                <a href="#faq" className="hover:text-[#C6A468] transition-colors">
-                  Foire aux questions
+                <a href="#profil" className="hover:text-[#C6A468] transition-colors">
+                  Mon profil
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Links Column 3 */}
-          <div className="space-y-2.5">
-            <h4 className="text-[11px] font-bold uppercase tracking-widest text-[#C6A468]">
+          {/* Column 4: À PROPOS */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
+              À PROPOS
+            </h4>
+            <ul className="space-y-2 text-xs text-[#E2EBE5] font-light">
+              <li>
+                <a href="#qui-sommes-nous" className="hover:text-[#C6A468] transition-colors">
+                  Qui sommes-nous ?
+                </a>
+              </li>
+              <li>
+                <a href="#engagement" className="hover:text-[#C6A468] transition-colors">
+                  Notre engagement
+                </a>
+              </li>
+              <li>
+                <a href="#recrutement" className="hover:text-[#C6A468] transition-colors">
+                  Recrutement
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="hover:text-[#C6A468] transition-colors">
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 5: NEWSLETTER */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
               NEWSLETTER
             </h4>
             <p className="text-xs text-[#A8BFAE] font-light leading-relaxed">
-              Recevez nos meilleures offres et arrivages du marché chaque semaine.
+              Recevez nos offres et nos bons plans !
             </p>
 
             <form onSubmit={handleSubscribe} className="space-y-2 pt-1">
-              <div className="relative flex items-center">
-                <input
-                  id="newsletter-email-input"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Votre email..."
-                  required
-                  className="w-full pl-3 pr-20 py-2 rounded-lg bg-[#234d40] text-xs text-white placeholder-[#A8BFAE]/60 border border-white/10 focus:outline-none focus:border-[#C6A468]"
-                />
-                <button
-                  id="newsletter-submit-btn"
-                  type="submit"
-                  className="absolute right-1 px-2.5 py-1 rounded bg-[#C6A468] text-[#16332A] text-xs font-bold hover:bg-[#DFCA9B] transition-colors"
-                >
-                  OK
-                </button>
-              </div>
+              <input
+                id="newsletter-email-input"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Votre email"
+                required
+                className="w-full px-3 py-2 rounded-lg bg-[#234d40] text-xs text-white placeholder-[#A8BFAE]/70 border border-white/20 focus:outline-none focus:border-[#C6A468]"
+              />
+              <button
+                id="newsletter-submit-btn"
+                type="submit"
+                className="w-full py-2 rounded-lg bg-[#C6A468] hover:bg-[#d9b87b] text-[#16332A] text-xs font-bold transition-colors cursor-pointer"
+              >
+                S'inscrire
+              </button>
 
               {isSubscribed && (
                 <div className="text-[11px] text-[#A8BFAE] flex items-center gap-1.5 bg-[#234d40] p-1.5 rounded border border-[#A8BFAE]/20">
@@ -168,14 +209,10 @@ export const Footer: React.FC = () => {
               )}
             </form>
           </div>
-        </div>
-      </div>
 
-      {/* Bottom Bar matching Reference HTML */}
-      <div className="px-4 sm:px-8 py-3 bg-[#0f241d] text-[10px] text-[#A8BFAE]/70 uppercase tracking-[0.25em] flex flex-col sm:flex-row justify-between items-center gap-2 border-t border-white/5">
-        <span>© 2024-2026 EXO ISLAND FRANCE — L'EXCELLENCE AU QUOTIDIEN</span>
-        <span className="font-semibold text-[#C6A468]">LIVRAISON OFFERTE DÈS 40€</span>
+        </div>
       </div>
     </footer>
   );
 };
+

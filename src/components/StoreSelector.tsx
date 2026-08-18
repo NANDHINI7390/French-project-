@@ -1,12 +1,11 @@
 import React from 'react';
-import { MapPin, CheckCircle2 } from 'lucide-react';
+import { MapPin, Check } from 'lucide-react';
 import { STORES } from '../data/storeData';
 import { StoreId } from '../types';
 
 interface StoreSelectorProps {
   selectedStore: StoreId;
   onSelectStore: (storeId: StoreId) => void;
-  onOpenStoreModal?: () => void;
 }
 
 export const StoreSelector: React.FC<StoreSelectorProps> = ({
@@ -14,85 +13,100 @@ export const StoreSelector: React.FC<StoreSelectorProps> = ({
   onSelectStore,
 }) => {
   return (
-    <section aria-label="Sélection du magasin" className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-      {/* Editorial Title with Champagne Wheat flourishes */}
-      <div className="text-center mb-5 sm:mb-6">
+    <section aria-label="Sélection du magasin" className="w-full max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-6">
+      {/* Title */}
+      <div className="text-center mb-4 sm:mb-5">
         <div className="inline-flex items-center justify-center gap-3">
-          <span className="text-[#C6A468] text-base sm:text-lg select-none">🌾</span>
-          <h2 className="font-fraunces text-2xl sm:text-3xl md:text-4xl text-[#16332A] font-medium tracking-tight">
-            Choisissez votre magasin
+          <span className="text-[#C6A468] text-lg sm:text-xl select-none">🌾</span>
+          <h2 className="font-fraunces text-2xl sm:text-3xl text-[#16332A] font-bold tracking-wider uppercase">
+            VOTRE MAGASIN
           </h2>
-          <span className="text-[#C6A468] text-base sm:text-lg select-none">🌾</span>
+          <span className="text-[#C6A468] text-lg sm:text-xl select-none">🌾</span>
         </div>
-        <p className="text-xs sm:text-sm text-[#232420]/60 mt-1 font-sans">
-          Sélectionnez votre magasin pour voir les disponibilités en temps réel et préparer votre retrait
-        </p>
       </div>
 
-      {/* Segmented Store Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-        {STORES.map((store) => {
+      {/* 2 Store Cards side by side */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto">
+        {STORES.slice(0, 2).map((store) => {
           const isSelected = selectedStore === store.id;
           return (
-            <button
+            <div
               key={store.id}
-              id={`store-card-btn-${store.id}`}
               onClick={() => onSelectStore(store.id)}
-              className={`group relative flex items-center justify-between p-3.5 sm:p-4 rounded-2xl transition-all duration-300 cursor-pointer text-left border ${
+              className={`p-4 sm:p-5 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
                 isSelected
-                  ? 'bg-[#16332A] text-[#F8F4EA] border-[#16332A] shadow-xl ring-2 ring-[#C6A468]/50 transform sm:-translate-y-0.5'
-                  : 'bg-white/80 hover:bg-white text-[#232420] border-[#16332A]/15 hover:border-[#16332A]/30 shadow-sm hover:shadow-md'
+                  ? 'bg-[#16332A] text-white border-[#16332A] shadow-md'
+                  : 'bg-white text-[#232420] border-[#E5DEC9] hover:border-[#16332A]/30'
               }`}
             >
-              {/* Left Details */}
-              <div className="flex items-center gap-3.5 sm:gap-4">
-                {/* Map Pin Icon Badge */}
-                <div
-                  className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
-                    isSelected
-                      ? 'bg-[#234d40] text-[#C6A468]'
-                      : 'bg-[#F8F4EA] text-[#16332A] group-hover:bg-[#16332A] group-hover:text-[#C6A468]'
-                  }`}
-                >
-                  <MapPin className="w-5 h-5" />
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className={`font-fraunces text-lg sm:text-xl font-bold ${isSelected ? 'text-white' : 'text-[#16332A]'}`}>
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div className="flex items-start gap-3">
+                  <div
+                    className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                      isSelected
+                        ? 'bg-[#C6A468] text-[#16332A]'
+                        : 'bg-[#16332A]/10 text-[#16332A]'
+                    }`}
+                  >
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className={`font-sans text-base sm:text-lg font-bold leading-snug ${isSelected ? 'text-white' : 'text-[#16332A]'}`}>
                       {store.name}
                     </h3>
-                    {isSelected && (
-                      <span className="inline-flex items-center gap-1 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#C6A468] text-[#16332A]">
-                        <CheckCircle2 className="w-3 h-3" /> Sélectionné
+                    <p className={`text-xs mt-0.5 ${isSelected ? 'text-[#A8BFAE]' : 'text-[#73736C]'}`}>
+                      {store.address}
+                    </p>
+                    <div className="flex items-center gap-1.5 mt-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className={`text-xs font-medium ${isSelected ? 'text-emerald-300' : 'text-emerald-700'}`}>
+                        Ouvert aujourd'hui • {store.hours}
                       </span>
-                    )}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 mt-0.5 text-xs">
-                    <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className={isSelected ? 'text-[#A8BFAE]' : 'text-[#232420]/70'}>
-                      {store.status} • {store.hours}
-                    </span>
-                  </div>
-                  <p className={`text-[11px] mt-1 ${isSelected ? 'text-[#F8F4EA]/70' : 'text-[#232420]/50'}`}>
-                    {store.address}, {store.postalCode} {store.city}
-                  </p>
+                </div>
+
+                {/* Store Thumbnail */}
+                <div className="w-20 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 border border-black/5">
+                  <img
+                    src={store.image}
+                    alt={store.name}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                  />
                 </div>
               </div>
 
-              {/* Right Store Building Preview Thumbnail */}
-              <div className="hidden sm:block flex-shrink-0 w-24 h-16 rounded-xl overflow-hidden border border-white/20 shadow-inner ml-3">
-                <img
-                  src={store.image}
-                  alt={`Magasin EXO ISLAND ${store.name}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-            </button>
+              {/* Action Button */}
+              <button
+                type="button"
+                id={`select-store-${store.id}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelectStore(store.id);
+                }}
+                className={`w-full py-2 px-3 rounded-lg text-xs font-bold uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer mt-2 ${
+                  isSelected
+                    ? 'bg-[#C6A468] text-[#16332A] hover:bg-[#d9b87b]'
+                    : 'bg-[#16332A] text-white hover:bg-[#234d40]'
+                }`}
+              >
+                {isSelected ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" />
+                    <span>Magasin actif</span>
+                  </>
+                ) : (
+                  <span>Choisir ce magasin</span>
+                )}
+              </button>
+            </div>
           );
         })}
       </div>
     </section>
   );
 };
+
+
