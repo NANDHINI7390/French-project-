@@ -1,0 +1,6 @@
+{
+  "name": "EXO ISLAND Supermarché",
+  "description": "Supermarché français haut de gamme — Produits frais du jour, saveurs du monde, boucherie, poissonnerie et épicerie fine à Goussainville et Sarcelles.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
