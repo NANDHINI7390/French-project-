@@ -11,7 +11,8 @@ interface CartDrawerProps {
   onRemoveItem: (productId: string) => void;
   onClearCart: () => void;
   selectedStore: StoreId;
-  onCheckoutSuccess: () => void;
+  onCheckoutSuccess?: () => void;
+  onNavigateCheckout?: () => void;
 }
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({
@@ -23,12 +24,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onClearCart,
   selectedStore,
   onCheckoutSuccess,
+  onNavigateCheckout,
 }) => {
   const [promoCode, setPromoCode] = useState('');
   const [appliedDiscount, setAppliedDiscount] = useState<number>(0);
   const [promoError, setPromoError] = useState('');
   const [deliveryMode, setDeliveryMode] = useState<'delivery' | 'collect'>('delivery');
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   if (!isOpen) return null;
 
@@ -61,13 +62,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     }
   };
 
-  const handleCheckout = () => {
-    setIsCheckingOut(true);
-    setTimeout(() => {
-      setIsCheckingOut(false);
-      onCheckoutSuccess();
-      onClearCart();
-    }, 1200);
+  const handleProceedToCheckout = () => {
+    onClose();
+    if (onNavigateCheckout) {
+      onNavigateCheckout();
+    }
   };
 
   return (
@@ -98,7 +97,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             <button
               onClick={onClose}
               aria-label="Fermer le panier"
-              className="p-1.5 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-1.5 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -142,7 +141,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </p>
                 <button
                   onClick={onClose}
-                  className="mt-5 px-5 py-2.5 rounded-xl bg-[#16332A] text-[#F8F4EA] text-xs font-semibold hover:bg-[#234d40] transition-colors"
+                  className="mt-5 px-5 py-2.5 rounded-xl bg-[#16332A] text-[#F8F4EA] text-xs font-semibold hover:bg-[#234d40] transition-colors cursor-pointer"
                 >
                   Commencer mes courses
                 </button>
@@ -171,7 +170,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
                     <button
                       onClick={() => onRemoveItem(item.product.id)}
-                      className="text-[#232420]/40 hover:text-[#6B2E3B] p-1 transition-colors"
+                      className="text-[#232420]/40 hover:text-[#6B2E3B] p-1 transition-colors cursor-pointer"
                       title="Supprimer"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -179,7 +178,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <div className="flex items-center gap-1.5 bg-white border border-[#16332A]/20 rounded-lg p-0.5">
                       <button
                         onClick={() => onUpdateQuantity(item.product.id, -1)}
-                        className="w-6 h-6 rounded bg-[#F8F4EA] text-[#16332A] flex items-center justify-center hover:bg-[#16332A] hover:text-white transition-colors"
+                        className="w-6 h-6 rounded bg-[#F8F4EA] text-[#16332A] flex items-center justify-center hover:bg-[#16332A] hover:text-white transition-colors cursor-pointer"
                       >
                         <Minus className="w-3 h-3" />
                       </button>
@@ -188,7 +187,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       </span>
                       <button
                         onClick={() => onUpdateQuantity(item.product.id, 1)}
-                        className="w-6 h-6 rounded bg-[#16332A] text-white flex items-center justify-center hover:bg-[#234d40] transition-colors"
+                        className="w-6 h-6 rounded bg-[#16332A] text-white flex items-center justify-center hover:bg-[#234d40] transition-colors cursor-pointer"
                       >
                         <Plus className="w-3 h-3" />
                       </button>
@@ -207,7 +206,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               <div className="grid grid-cols-2 gap-2 p-1 bg-[#F8F4EA] rounded-xl border border-[#16332A]/10 text-xs">
                 <button
                   onClick={() => setDeliveryMode('delivery')}
-                  className={`py-1.5 px-2 rounded-lg font-medium flex items-center justify-center gap-1.5 transition-all ${
+                  className={`py-1.5 px-2 rounded-lg font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     deliveryMode === 'delivery'
                       ? 'bg-[#16332A] text-[#F8F4EA] shadow-xs'
                       : 'text-[#232420]/70 hover:text-[#16332A]'
@@ -218,7 +217,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </button>
                 <button
                   onClick={() => setDeliveryMode('collect')}
-                  className={`py-1.5 px-2 rounded-lg font-medium flex items-center justify-center gap-1.5 transition-all ${
+                  className={`py-1.5 px-2 rounded-lg font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     deliveryMode === 'collect'
                       ? 'bg-[#16332A] text-[#F8F4EA] shadow-xs'
                       : 'text-[#232420]/70 hover:text-[#16332A]'
@@ -251,7 +250,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   </div>
                   <button
                     type="submit"
-                    className="px-3 py-1.5 rounded-lg bg-[#16332A] text-[#F8F4EA] text-xs font-semibold hover:bg-[#234d40] transition-colors"
+                    className="px-3 py-1.5 rounded-lg bg-[#16332A] text-[#F8F4EA] text-xs font-semibold hover:bg-[#234d40] transition-colors cursor-pointer"
                   >
                     Appliquer
                   </button>
@@ -302,18 +301,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               {/* Checkout Button */}
               <button
                 id="cart-checkout-btn"
-                onClick={handleCheckout}
-                disabled={isCheckingOut}
-                className="w-full py-3 px-4 rounded-xl bg-[#C6A468] hover:bg-[#DFCA9B] text-[#16332A] font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg disabled:opacity-75"
+                onClick={handleProceedToCheckout}
+                className="w-full py-3.5 px-4 rounded-xl bg-[#C6A468] hover:bg-[#d9b87b] text-[#16332A] font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg cursor-pointer"
               >
-                {isCheckingOut ? (
-                  <span>Validation en cours...</span>
-                ) : (
-                  <>
-                    <span>Valider mon panier</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
+                <span>Passer la commande</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           )}

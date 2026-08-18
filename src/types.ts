@@ -50,6 +50,62 @@ export interface HeroSlide {
 
 export type StoreId = 'goussainville' | 'sarcelles';
 
+export type PageType =
+  | 'home'
+  | 'all-categories'
+  | 'category'
+  | 'product-detail'
+  | 'search'
+  | 'search-results'
+  | 'promotions'
+  | 'stores'
+  | 'checkout'
+  | 'order-confirmation'
+  | 'account'
+  | 'orders'
+  | 'about'
+  | 'contact'
+  | 'help';
+
+export type DeliveryMethod = 'delivery' | 'collect';
+
+export interface TimeSlot {
+  id: string;
+  day: string;
+  date: string;
+  timeRange: string;
+  available: boolean;
+  isRushHour?: boolean;
+}
+
+export interface CustomerInfo {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  apartment?: string;
+  postalCode: string;
+  city: string;
+  instructions?: string;
+}
+
+export interface Order {
+  id: string;
+  date: string;
+  items: CartItem[];
+  subtotal: number;
+  discount: number;
+  deliveryFee: number;
+  total: number;
+  status: 'en_preparation' | 'expediee' | 'livree' | 'prete_retrait' | 'annulee';
+  deliveryMethod: DeliveryMethod;
+  store: StoreId;
+  timeSlot: string;
+  customer: CustomerInfo;
+  paymentMethod: string;
+}
+
 export interface StoreInfo {
   id: StoreId;
   name: string;
@@ -62,3 +118,4 @@ export interface StoreInfo {
   image: string;
   distance?: string;
 }
+

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Heart, ShoppingBag, User, Phone, Truck, X, Menu, MapPin, ChevronDown } from 'lucide-react';
-import { LOGO_URL, STORES } from '../data/storeData';
+import { Search, Heart, ShoppingBag, User, Phone, Truck, X, Menu, MapPin, ChevronDown, Sparkles } from 'lucide-react';
+import { LOGO_URL, STORES, CATEGORIES } from '../data/storeData';
 import { Product, StoreId } from '../types';
 
 interface HeaderProps {
@@ -17,6 +17,11 @@ interface HeaderProps {
   searchResults: Product[];
   onSelectProduct: (product: Product) => void;
   onSelectNavCategory?: (category: string) => void;
+  onNavigateHome?: () => void;
+  onNavigateAllCategories?: () => void;
+  onNavigatePromotions?: () => void;
+  onNavigateStores?: () => void;
+  onNavigateSearch?: (query: string) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -33,6 +38,11 @@ export const Header: React.FC<HeaderProps> = ({
   searchResults,
   onSelectProduct,
   onSelectNavCategory,
+  onNavigateHome,
+  onNavigateAllCategories,
+  onNavigatePromotions,
+  onNavigateStores,
+  onNavigateSearch,
 }) => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -56,6 +66,14 @@ export const Header: React.FC<HeaderProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim() && onNavigateSearch) {
+      setIsSearchFocused(false);
+      onNavigateSearch(searchQuery.trim());
+    }
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full bg-[#FAF7F0] border-b border-[#E8E2D5] shadow-xs">
       
@@ -70,13 +88,29 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </div>
 
-          {/* Center slogan */}
-          <div className="hidden lg:flex items-center gap-2 text-[#E2EBE5] text-xs font-light">
-            <span>Produits frais</span>
-            <span className="text-[#C6A468]">•</span>
-            <span>Qualité premium</span>
-            <span className="text-[#C6A468]">•</span>
-            <span>Prix justes</span>
+          {/* Center quick links */}
+          <div className="hidden lg:flex items-center gap-4 text-[#E2EBE5] text-xs font-light">
+            <button
+              onClick={onNavigatePromotions}
+              className="hover:text-[#C6A468] transition-colors cursor-pointer flex items-center gap-1 font-semibold text-[#E7CF9B]"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#C6A468]" />
+              <span>Promotions de la semaine</span>
+            </button>
+            <span className="text-white/30">•</span>
+            <button
+              onClick={onNavigateAllCategories}
+              className="hover:text-[#C6A468] transition-colors cursor-pointer font-medium"
+            >
+              Tous les rayons
+            </button>
+            <span className="text-white/30">•</span>
+            <button
+              onClick={onNavigateStores}
+              className="hover:text-[#C6A468] transition-colors cursor-pointer font-medium"
+            >
+              Nos magasins & services
+            </button>
           </div>
 
           {/* Right item */}
@@ -113,7 +147,10 @@ export const Header: React.FC<HeaderProps> = ({
             <Menu className="w-6 h-6" />
           </button>
 
-          <a href="#" className="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0">
+          <button
+            onClick={onNavigateHome}
+            className="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0 text-left cursor-pointer"
+          >
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden">
               <img
                 src={LOGO_URL}
@@ -123,19 +160,19 @@ export const Header: React.FC<HeaderProps> = ({
               />
             </div>
             <div>
-              <span className="font-fraunces text-xl sm:text-3xl font-bold tracking-tight text-[#16332A] leading-none block">
+              <span className="font-fraunces text-xl sm:text-3xl font-bold tracking-tight text-[#16332A] leading-none block group-hover:text-[#6B2E3B] transition-colors">
                 EXO ISLAND
               </span>
               <span className="text-[9px] sm:text-[10px] tracking-[0.25em] sm:tracking-[0.3em] font-semibold text-[#C6A468] uppercase block mt-0.5">
                 SUPERMARCHÉ
               </span>
             </div>
-          </a>
+          </button>
         </div>
 
         {/* Center: Desktop Search Bar */}
         <div className="relative flex-1 max-w-xl hidden md:block" ref={searchRef}>
-          <div className="relative">
+          <form onSubmit={handleSearchSubmit} className="relative">
             <input
               id="main-search-input"
               type="text"
@@ -145,34 +182,47 @@ export const Header: React.FC<HeaderProps> = ({
               placeholder="Rechercher un produit (fruits, viande, épices...)"
               className="w-full pl-5 pr-11 py-2.5 bg-white border border-[#DDD6C8] rounded-full text-sm text-[#232420] placeholder-[#8A8A85] focus:outline-none focus:border-[#16332A] shadow-xs transition-all"
             />
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[#4A4B46] pointer-events-none">
+            <button
+              type="submit"
+              aria-label="Rechercher"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#4A4B46] hover:text-[#16332A] cursor-pointer"
+            >
               <Search className="w-4 h-4 stroke-[2.2]" />
-            </div>
+            </button>
             {searchQuery && (
               <button
+                type="button"
                 onClick={() => onSearchChange('')}
-                className="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
-          </div>
+          </form>
 
           {/* Live Search dropdown results */}
           {isSearchFocused && searchQuery.trim().length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-[#FAF7F0] rounded-2xl shadow-2xl border border-[#16332A]/15 overflow-hidden z-50 max-h-[380px] overflow-y-auto">
               <div className="p-3 bg-[#16332A]/5 border-b border-[#16332A]/10 text-xs font-semibold text-[#16332A] flex justify-between items-center">
                 <span>Résultats pour « {searchQuery} »</span>
-                <span className="text-[#232420]/60">{searchResults.length} produit(s)</span>
+                <button
+                  onClick={() => {
+                    setIsSearchFocused(false);
+                    if (onNavigateSearch) onNavigateSearch(searchQuery);
+                  }}
+                  className="text-xs text-[#6B2E3B] font-bold hover:underline"
+                >
+                  Voir tous ({searchResults.length}) →
+                </button>
               </div>
               {searchResults.length === 0 ? (
                 <div className="p-6 text-center text-sm text-[#232420]/70">
                   <p className="font-medium text-[#16332A]">Aucun produit trouvé pour « {searchQuery} ».</p>
-                  <p className="text-xs text-[#232420]/50 mt-1">Essayez avec « Tomates », « Huile », « Nutella » ou « Baguette »</p>
+                  <p className="text-xs text-[#232420]/50 mt-1">Essayez avec « Tomates », « Mangue », « Poulet » ou « Baguette »</p>
                 </div>
               ) : (
                 <div className="divide-y divide-[#16332A]/10">
-                  {searchResults.map((product) => (
+                  {searchResults.slice(0, 6).map((product) => (
                     <div
                       key={product.id}
                       onClick={() => {
@@ -184,7 +234,8 @@ export const Header: React.FC<HeaderProps> = ({
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="w-12 h-12 rounded-lg object-contain bg-white border border-[#16332A]/10 p-1"
+                        className="w-12 h-12 rounded-lg object-cover bg-white border border-[#16332A]/10"
+                        referrerPolicy="no-referrer"
                       />
                       <div className="flex-1 min-w-0">
                         <h4 className="text-sm font-semibold text-[#16332A] truncate">{product.name}</h4>
@@ -258,7 +309,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Search Bar Row */}
       <div className="md:hidden px-3 pb-2.5" ref={mobileSearchRef}>
-        <div className="relative">
+        <form onSubmit={handleSearchSubmit} className="relative">
           <input
             id="mobile-search-input"
             type="text"
@@ -268,18 +319,22 @@ export const Header: React.FC<HeaderProps> = ({
             placeholder="Rechercher un produit..."
             className="w-full pl-4 pr-10 py-2 bg-white border border-[#DDD6C8] rounded-full text-xs text-[#232420] placeholder-[#8A8A85] focus:outline-none focus:border-[#16332A] shadow-xs"
           />
-          <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#4A4B46]">
+          <button
+            type="submit"
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#4A4B46]"
+          >
             <Search className="w-4 h-4 stroke-[2.2]" />
-          </div>
+          </button>
           {searchQuery && (
             <button
+              type="button"
               onClick={() => onSearchChange('')}
               className="absolute right-9 top-1/2 -translate-y-1/2 text-gray-400"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           )}
-        </div>
+        </form>
       </div>
 
       {/* Mobile Navigation Drawer */}
@@ -296,7 +351,13 @@ export const Header: React.FC<HeaderProps> = ({
             <div>
               {/* Header */}
               <div className="p-4 bg-[#16332A] text-white flex items-center justify-between">
-                <div className="flex items-center gap-2">
+                <div
+                  onClick={() => {
+                    if (onNavigateHome) onNavigateHome();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
                   <img src={LOGO_URL} alt="Logo" className="w-8 h-8 rounded-full" />
                   <div>
                     <span className="font-fraunces font-bold text-lg leading-none block">EXO ISLAND</span>
@@ -305,9 +366,32 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-1 rounded-full text-white/80 hover:text-white"
+                  className="p-1 rounded-full text-white/80 hover:text-white cursor-pointer"
                 >
                   <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Quick Hub Links */}
+              <div className="p-3 bg-[#EFE6D5] grid grid-cols-2 gap-2 border-b border-[#16332A]/10 text-xs font-bold">
+                <button
+                  onClick={() => {
+                    if (onNavigatePromotions) onNavigatePromotions();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="p-2 rounded-lg bg-[#6B2E3B] text-white text-center shadow-xs flex items-center justify-center gap-1"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-[#C6A468]" />
+                  <span>Promotions</span>
+                </button>
+                <button
+                  onClick={() => {
+                    if (onNavigateAllCategories) onNavigateAllCategories();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="p-2 rounded-lg bg-[#16332A] text-white text-center shadow-xs"
+                >
+                  Tous les rayons
                 </button>
               </div>
 
@@ -325,7 +409,7 @@ export const Header: React.FC<HeaderProps> = ({
                         onSelectStore(s.id);
                         setIsMobileMenuOpen(false);
                       }}
-                      className={`p-2 rounded-lg text-xs font-bold text-left transition-all ${
+                      className={`p-2 rounded-lg text-xs font-bold text-left transition-all cursor-pointer ${
                         selectedStore === s.id
                           ? 'bg-[#16332A] text-white'
                           : 'bg-[#EDE6DA] text-[#232420] hover:bg-[#E2D9CA]'
@@ -339,32 +423,23 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
 
               {/* Departments Navigation Links */}
-              <div className="p-4 space-y-2">
+              <div className="p-4 space-y-1">
                 <div className="text-xs font-bold uppercase tracking-wider text-[#73736C] mb-2">
                   Rayons du supermarché
                 </div>
-                {[
-                  { name: 'Fruits & Légumes', id: 'fruits-legumes' },
-                  { name: 'Boucherie & Volailles', id: 'boucherie' },
-                  { name: 'Produits Frais & Crémerie', id: 'produits-frais' },
-                  { name: 'Poissonnerie', id: 'poissons' },
-                  { name: 'Boulangerie & Pâtisserie', id: 'boulangerie' },
-                  { name: 'Épicerie Sucrée & Salée', id: 'epicerie' },
-                  { name: 'Boissons & Cave', id: 'boissons' },
-                  { name: 'Surgelés', id: 'surgeles' },
-                  { name: 'Bio & Équitable', id: 'bio' },
-                ].map((dept) => (
+                {CATEGORIES.map((dept) => (
                   <button
                     key={dept.id}
                     onClick={() => {
                       if (onSelectNavCategory) {
-                        onSelectNavCategory(dept.id);
+                        onSelectNavCategory(dept.slug);
                       }
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full text-left py-2 px-3 rounded-lg text-sm text-[#16332A] font-medium hover:bg-black/5 transition-colors"
+                    className="w-full text-left py-2 px-3 rounded-lg text-xs font-semibold text-[#16332A] hover:bg-black/5 transition-colors flex items-center justify-between"
                   >
-                    {dept.name}
+                    <span>{dept.name}</span>
+                    <span className="text-[10px] text-gray-400 font-mono-price">{dept.itemCount} prod.</span>
                   </button>
                 ))}
               </div>
@@ -372,13 +447,21 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Footer in Drawer */}
             <div className="p-4 border-t border-[#16332A]/10 bg-[#EDE6DA]/50 space-y-2 text-xs">
-              <a href="tel:0134501212" className="flex items-center gap-2 text-[#16332A]">
+              <button
+                onClick={() => {
+                  if (onNavigateStores) onNavigateStores();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full text-left font-bold text-[#16332A] flex items-center gap-2"
+              >
+                <MapPin className="w-4 h-4 text-[#C6A468]" />
+                <span>Voir nos magasins & horaires</span>
+              </button>
+
+              <a href="tel:0134501212" className="flex items-center gap-2 text-[#16332A] pt-1">
                 <Phone className="w-4 h-4 text-[#C6A468]" />
                 <span>Service client: 01 34 50 12 12</span>
               </a>
-              <div className="text-[10px] text-[#73736C]">
-                Livraison à domicile & Click & Collect disponibles
-              </div>
             </div>
           </div>
         </div>
@@ -386,5 +469,3 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
-
-

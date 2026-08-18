@@ -2,7 +2,25 @@ import React, { useState } from 'react';
 import { Facebook, Instagram, Youtube, Check } from 'lucide-react';
 import { LOGO_URL } from '../data/storeData';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onNavigateHome?: () => void;
+  onNavigateCategories?: () => void;
+  onNavigateStores?: () => void;
+  onNavigateAbout?: () => void;
+  onNavigateHelp?: () => void;
+  onNavigateAccount?: (tab?: 'profile' | 'orders' | 'wishlist' | 'addresses') => void;
+  onNavigatePromotions?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({
+  onNavigateHome,
+  onNavigateCategories,
+  onNavigateStores,
+  onNavigateAbout,
+  onNavigateHelp,
+  onNavigateAccount,
+  onNavigatePromotions,
+}) => {
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
 
@@ -24,7 +42,10 @@ export const Footer: React.FC = () => {
           
           {/* Column 1: Brand & Socials */}
           <div className="space-y-3">
-            <div className="flex items-center gap-2.5">
+            <div
+              onClick={onNavigateHome}
+              className="flex items-center gap-2.5 cursor-pointer group"
+            >
               <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0">
                 <img
                   src={LOGO_URL}
@@ -34,7 +55,7 @@ export const Footer: React.FC = () => {
                 />
               </div>
               <div>
-                <span className="font-fraunces text-xl font-bold tracking-tight text-white leading-none block">
+                <span className="font-fraunces text-xl font-bold tracking-tight text-white leading-none block group-hover:text-[#C6A468] transition-colors">
                   EXO ISLAND
                 </span>
                 <span className="text-[9px] font-semibold tracking-[0.25em] text-[#C6A468] uppercase mt-0.5 block">
@@ -89,29 +110,44 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-[#E2EBE5] font-light">
               <li>
-                <a href="#magasins" className="hover:text-[#C6A468] transition-colors">
+                <button
+                  onClick={onNavigateStores}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
                   Nos magasins
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#livraison" className="hover:text-[#C6A468] transition-colors">
-                  Livraison
-                </a>
+                <button
+                  onClick={onNavigateAbout}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
+                  Livraison & Click & Collect
+                </button>
               </li>
               <li>
-                <a href="#click-collect" className="hover:text-[#C6A468] transition-colors">
-                  Click & Collect
-                </a>
+                <button
+                  onClick={onNavigatePromotions}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
+                  Promotions & Bons Plans
+                </button>
               </li>
               <li>
-                <a href="#services" className="hover:text-[#C6A468] transition-colors">
-                  Services
-                </a>
+                <button
+                  onClick={onNavigateAbout}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
+                  Nos services en supermarché
+                </button>
               </li>
               <li>
-                <a href="#faq" className="hover:text-[#C6A468] transition-colors">
-                  FAQ
-                </a>
+                <button
+                  onClick={onNavigateHelp}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
+                  Foire aux questions (FAQ)
+                </button>
               </li>
             </ul>
           </div>
@@ -123,24 +159,36 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-[#E2EBE5] font-light">
               <li>
-                <a href="#commandes" className="hover:text-[#C6A468] transition-colors">
+                <button
+                  onClick={() => onNavigateAccount && onNavigateAccount('orders')}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
                   Mes commandes
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#favoris" className="hover:text-[#C6A468] transition-colors">
+                <button
+                  onClick={() => onNavigateAccount && onNavigateAccount('wishlist')}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
                   Mes favoris
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#adresses" className="hover:text-[#C6A468] transition-colors">
+                <button
+                  onClick={() => onNavigateAccount && onNavigateAccount('addresses')}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
                   Mes adresses
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#profil" className="hover:text-[#C6A468] transition-colors">
+                <button
+                  onClick={() => onNavigateAccount && onNavigateAccount('profile')}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
                   Mon profil
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -152,24 +200,36 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-[#E2EBE5] font-light">
               <li>
-                <a href="#qui-sommes-nous" className="hover:text-[#C6A468] transition-colors">
+                <button
+                  onClick={onNavigateAbout}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
                   Qui sommes-nous ?
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#engagement" className="hover:text-[#C6A468] transition-colors">
-                  Notre engagement
-                </a>
+                <button
+                  onClick={onNavigateAbout}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
+                  Nos engagements qualité
+                </button>
               </li>
               <li>
-                <a href="#recrutement" className="hover:text-[#C6A468] transition-colors">
-                  Recrutement
-                </a>
+                <button
+                  onClick={onNavigateCategories}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
+                  Tous les rayons
+                </button>
               </li>
               <li>
-                <a href="#contact" className="hover:text-[#C6A468] transition-colors">
-                  Contact
-                </a>
+                <button
+                  onClick={onNavigateHelp}
+                  className="hover:text-[#C6A468] transition-colors cursor-pointer text-left"
+                >
+                  Nous contacter
+                </button>
               </li>
             </ul>
           </div>
@@ -180,7 +240,7 @@ export const Footer: React.FC = () => {
               NEWSLETTER
             </h4>
             <p className="text-xs text-[#A8BFAE] font-light leading-relaxed">
-              Recevez nos offres et nos bons plans !
+              Recevez nos offres et nos bons plans chaque semaine !
             </p>
 
             <form onSubmit={handleSubscribe} className="space-y-2 pt-1">
@@ -211,8 +271,17 @@ export const Footer: React.FC = () => {
           </div>
 
         </div>
+
+        {/* Bottom copyright */}
+        <div className="pt-6 border-t border-white/10 text-center text-xs text-[#A8BFAE]/70 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span>© 2026 EXO ISLAND Supermarché. Tous droits réservés.</span>
+          <div className="flex gap-4 text-[11px]">
+            <button onClick={onNavigateAbout} className="hover:text-white">Mentions légales</button>
+            <button onClick={onNavigateHelp} className="hover:text-white">Conditions Générales</button>
+            <button onClick={onNavigateHelp} className="hover:text-white">Politique de confidentialité</button>
+          </div>
+        </div>
       </div>
     </footer>
   );
 };
-
